@@ -72,12 +72,28 @@ function Start() {
     highScoreElement = document.querySelector(".high-score");
     dino = document.querySelector(".dino");
     restartButton = document.querySelector(".restart-button");
+    jumpButton = document.querySelector(".jump"); // Selecciona el botón de salto
 
     document.addEventListener("keydown", HandleKeyDown);
     restartButton.addEventListener("click", RestartGame);
+    jumpButton.addEventListener("click", Saltar); // Añade un evento de clic para el botón de salto
 
     highScore = localStorage.getItem('highScore') || 0;
     highScoreElement.innerText = `High Score: ${highScore}`;
+}
+
+function HandleKeyDown(ev){
+    if(ev.keyCode == 32){
+        Saltar();
+    }
+}
+
+function Saltar(){
+    if(dinoPosY === sueloY){
+        saltando = true;
+        velY = impulso;
+        dino.classList.remove("dino-corriendo");
+    }
 }
 
 
@@ -98,19 +114,7 @@ function Update() {
     velY -= gravedad * deltaTime;
 }
 
-function HandleKeyDown(ev) {
-    if (ev.keyCode == 32) {
-        Saltar();
-    }
-}
 
-function Saltar() {
-    if (dinoPosY === sueloY) {
-        saltando = true;
-        velY = impulso;
-        dino.classList.remove("dino-corriendo");
-    }
-}
 
 function MoverDinosaurio() {
     dinoPosY += velY * deltaTime;
